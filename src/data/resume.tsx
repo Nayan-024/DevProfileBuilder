@@ -2,7 +2,8 @@ import { Icons } from "@/components/icons";
 import { HomeIcon, NotebookIcon } from "lucide-react";
 
 export const DATA = {
-  name: "Dillion Verma",
+  name: "Nayan 👋🏻",
+  greeting:"Hi, I'M ",
   initials: "DV",
   url: "https://dillion.io",
   location: "San Francisco, CA",
@@ -19,10 +20,10 @@ export const DATA = {
     "Node.js",
     "Python",
     "Go",
-    "Postgres",
+    "Postgresql",
     "Docker",
     "Kubernetes",
-    "Java",
+    "java",
     "C++",
   ],
   navbar: [
@@ -30,7 +31,7 @@ export const DATA = {
     { href: "#about", icon: NotebookIcon, label: "About" },
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
     { href: "#project", icon: NotebookIcon, label: "Projects" },
-    { href: "#certificates", icon: NotebookIcon, label: "Acheivements" },
+    { href: "#certificates", icon: NotebookIcon, label: "Certificates" },
   ],
   contact: {
     email: "hello@example.com",

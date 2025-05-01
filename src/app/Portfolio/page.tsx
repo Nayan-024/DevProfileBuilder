@@ -8,84 +8,22 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
 import Link from "next/link";
 import TypingText from "@/components/magicui/TypingText";
-import { db, collection, addDoc } from "../../firebase";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { MagicCard } from "@/components/magicui/magic-card";
-import { ShineBorder } from "@/components/magicui/shine-border";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
-import ReCAPTCHA from "react-google-recaptcha";
 import { AnimatedList } from "@/components/magicui/animated-list";
 import { ExpandableCard } from "@/components/magicui/expandableCard";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
-import { useTheme } from "next-themes";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import EducationCard from "@/components/magicui/EducationCard";
+import CertificateCard from "@/components/magicui/CertificateCard";
+import ContactForm from "@/components/magicui/contact-form";
 // import { BackgroundBeams } from "@/components/ui/background-beams";
 // import SplineViewer from "@/components/magicui/SplineViewer";
 const BLUR_FADE_DELAY = 0.04;
 
 const Page = () => {
-  const [show, setShow] = useState(true);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
   const [showAll, setShowAll] = useState(false);
 
   const displayedProjects = showAll ? DATA.projects : DATA.projects.slice(0, 4);
-
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (direction: "left" | "right") => {
-    const container = scrollRef.current;
-    if (container) {
-      const scrollAmount = 400; // Adjust as needed
-      container.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const recaptchaRef = useRef<HTMLElement | null>(null);
-  const [captchaToken, setCaptchaToken] = useState("");
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!captchaToken) {
-      alert("Please complete the captcha!");
-      return;
-    }
-
-    console.log("Form data:", formData);
-
-    try {
-      // Log the attempt to add data to Firestore
-      console.log("Adding data to Firestore...");
-      const docRef = await addDoc(collection(db, "contactMessages"), {
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-        createdAt: new Date(),
-      });
-
-      console.log("Document written with ID: ", docRef.id);
-
-      // Clear form after submission
-      setFormData({ name: "", email: "", message: "" });
-      alert("Message sent successfully!");
-    } catch (error) {
-      console.error("Error writing document: ", error);
-      alert(`Something went wrong: ${(error as Error).message}`);
-    }
-  };
 
   const integrations = [
     { src: "/react-icon.png", alt: "React" },
@@ -108,16 +46,6 @@ const Page = () => {
     image: item.src,
   }));
 
-  const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const { resolvedTheme } = useTheme(); // detects the actual applied theme (light/dark)
-
-  function handleShow() {
-    setShow(!show);
-  }
-  useEffect(() => {
-    console.log("Icon Refs:", iconRefs.current);
-  }, []); // This logs the refs when they are updated
-
   return (
     <main className="min-h-screen w-full flex flex-col p-6 ">
       <div
@@ -128,11 +56,11 @@ const Page = () => {
       >
         {/* <BackgroundBeams /> */}
         {/* <div className="max-sm:hidden"><SplineViewer /></div> */}
-        <DotLottieReact
+        {/* <DotLottieReact
           src="https://lottie.host/aea67d5e-1f8c-4eb3-9c1e-7eb05bc6b908/flwEKaCzTc.lottie"
           loop
           autoplay
-        />
+        /> */}
       </div>
       <section
         id="intro"
@@ -142,7 +70,8 @@ const Page = () => {
           {/* Text Content */}
           <div className="lg:w-6/12 w-full flex flex-col text-center sm:text-left px-4 sm:px-0">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase tracking-wide leading-tight dark:text-white bg-gradient-to-r from-[#8a2387] via-[#e94057] to-[#f27121] text-transparent bg-clip-text break-words">
-              Hi, I&apos;m Nayan 👋
+              {DATA.greeting}
+              {DATA.name}
               <br className="" />
               <TypingText
                 texts={["Web Developer", "UI/UX Designer"]}
@@ -224,7 +153,7 @@ const Page = () => {
       <section id="about" className="mt-24 pb-12 w-12/12 justify-items-center">
         <div className="justify-items-center mb-10 text-center">
           <div className="mb-9">
-            <RainbowButton onClick={handleShow}>About</RainbowButton>
+            <RainbowButton>About</RainbowButton>
           </div>
           <h2 className="text-3xl mb-4 font-bold tracking-tighter sm:text-5xl">
             About Me
@@ -240,68 +169,32 @@ const Page = () => {
           </Markdown>
         </BlurFade>
       </section>
-      <section
-        id="education"
-        className="w-full mt-20 flex flex-col items-center px-4 sm:px-6"
-      >
-        <div className="justify-items-center mb-10 text-center">
-          <div className="mb-9">
-            <RainbowButton onClick={handleShow}>Education</RainbowButton>
-          </div>
-          <h2 className="text-3xl mb-4 font-bold tracking-tighter sm:text-5xl">
-            A Journey of Learning{" "}
-          </h2>
-          <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-            Education has shaped my problem-solving mindset and technical
-            skills, fueling my curiosity and passion for impactful solutions.
-          </p>
-        </div>
-
-        {show && (
-          <AnimatedList delay={1000} className="w-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mx-auto">
-              {DATA.education.map((education, id) => (
-                <div
-                  key={id}
-                  className="relative w-full flex flex-col justify-between items-start gap-2 sm:gap-4 p-4 rounded-lg shadow-md border border-gray-700"
-                >
-                  {/* Top Row: Logo + School/Degree */}
-                  <div className="flex items-center justify-between w-full">
-                    {/* Logo and Text */}
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="w-14 h-14 rounded-full overflow-hidden bg-slate-200 dark:bg-white flex items-center justify-center shrink-0">
-                        <img
-                          src={education.logoUrl}
-                          alt={education.school}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-
-                      <div className="text-left">
-                        <h3 className="text-sm sm:text-xl font-semibold">
-                          {education.school}
-                        </h3>
-                        <p className="text-xs sm:text-sm">{education.degree}</p>
-                      </div>
-                    </div>
-
-                    {/* Date (moved inline) */}
-                    <p className="absolute top-2 right-2 text-xs sm:text-sm tabular-nums text-muted-foreground whitespace-nowrap">
-                      {`${education.start} - ${education.end}`}
-                    </p>
-                  </div>
-                </div>
-              ))}
+      <section id="education">
+        {DATA.education.length > 0 && (
+          <div className="w-full mt-20 flex flex-col items-center px-4 sm:px-6">
+            <div className="justify-items-center mb-10 text-center">
+              <div className="mb-9">
+                <RainbowButton>Education</RainbowButton>
+              </div>
+              <h2 className="text-3xl mb-4 font-bold tracking-tighter sm:text-5xl">
+                A Journey of Learning{" "}
+              </h2>
+              <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                Education has shaped my problem-solving mindset and technical
+                skills, fueling my curiosity and passion for impactful
+                solutions.
+              </p>
             </div>
-          </AnimatedList>
+
+            <AnimatedList delay={1000} className="w-full">
+              <EducationCard educationData={DATA.education} />
+            </AnimatedList>
+          </div>
         )}
       </section>
-      <section
-        id="skills"
-        className="flex flex-col items-center mt-16 px-4 sm:px-6 lg:px-8"
-      >
+      <section id="skills">
         {DATA.skills.length > 0 ? (
-          <div>
+          <div className="flex flex-col items-center mt-16 px-4 sm:px-6 lg:px-8">
             {/* Section Header */}
             <div className="text-center">
               <div className="mt-14 pointer-events-none">
@@ -322,7 +215,7 @@ const Page = () => {
             <div className="relative flex flex-col items-center justify-center w-full space-y-6 md:space-y-0 md:flex-row md:h-[200px]">
               {/* Ensure AnimatedTooltip doesn't break on mobile */}
               <div className="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-6xl">
-                <AnimatedTooltip items={skillsData} />
+              <AnimatedTooltip items={[...DATA.skills]} />
               </div>
             </div>
           </div>
@@ -335,7 +228,7 @@ const Page = () => {
               <div className="mb-9 pointer-events-none">
                 <RainbowButton>Work Experience</RainbowButton>
               </div>
-              <h2 className="text-3xl mb-4 font-bold tracking-tighter sm:text-5xl">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 Turning Ideas into Impact
               </h2>
               <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
@@ -352,14 +245,14 @@ const Page = () => {
           </div>
         ) : null}
       </section>
-      <section id="project" className="mt-20">
+      <section id="project" className="mt-28">
         {DATA.projects.length > 0 ? (
-          <div className="mt-28 justify-items-center">
+          <div className=" justify-items-center">
             <div className="justify-items-center text-center">
               <div className="mb-9 pointer-events-none">
                 <RainbowButton>Projects</RainbowButton>
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter mb-4 sm:text-5xl">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 Bringing Ideas to Life
               </h2>
               <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
@@ -486,62 +379,12 @@ const Page = () => {
                 and expanding my perspective on innovation in tech.
               </p>
             </div>
-            <div className="relative w-full px-4">
-              {/* Arrow Buttons */}
-              <button
-                onClick={() => scroll("left")}
-                className="absolute z-10 left-0 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full p-2 hover:bg-black transition"
-              >
-                <ChevronLeft size={24} />
-              </button>
-              <button
-                onClick={() => scroll("right")}
-                className="absolute z-10 right-0 top-1/2 -translate-y-1/2 bg-black/60 text-white rounded-full p-2 hover:bg-black transition"
-              >
-                <ChevronRight size={24} />
-              </button>
-
-              {/* Scrollable container */}
-              <div
-                ref={scrollRef}
-                className="flex overflow-x-auto gap-6 scroll-smooth scrollbar-hide py-6 px-8"
-              >
-                {DATA.certifications.map((card, idx) => (
-                  <MagicCard
-                    key={`${card.title}-${idx}`}
-                    className="flex-shrink-0 w-full max-w-[400px] rounded-2xl border-2 border-black bg-slate-100 p-6 dark:border-zinc-700 dark:bg-[linear-gradient(180deg,#27272a,#18181b)]"
-                    gradientSize={180}
-                    gradientColor="#262626"
-                    gradientOpacity={0.7}
-                    gradientFrom="#9E7AFF"
-                    gradientTo="#FE8BBB"
-                  >
-                    <div className="relative w-full h-[250px] sm:h-[280px] md:h-[300px] overflow-hidden rounded-2xl group">
-                      <div
-                        className="absolute inset-0 bg-cover bg-center transition-all duration-300 group-hover:brightness-100"
-                        style={{ backgroundImage: `url(${card.imageUrl})` }}
-                      />
-                      <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 bg-gradient-to-t from-black/70 to-transparent transition-opacity duration-300 opacity-100 group-hover:opacity-100">
-                        <h3 className="text-white text-lg sm:text-xl font-extrabold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                          {card.title}
-                        </h3>
-                        <p className="text-white text-xs sm:text-sm mt-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                          issued by {card.issuer}
-                        </p>
-                        <p className="text-white text-xs sm:text-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                          {card.date}
-                        </p>
-                      </div>
-                    </div>
-                  </MagicCard>
-                ))}
-              </div>
-            </div>
+            <CertificateCard certifications={DATA.certifications} />
           </div>
         ) : null}
       </section>
       <section id="contact" className="mt-20">
-        <div className="mt-20">
+        <div className="">
           <div className="justify-items-center">
             <div className="mb-9 pointer-events-none">
               <RainbowButton> Contact </RainbowButton>
@@ -561,78 +404,7 @@ const Page = () => {
               soliciting.
             </p>
           </div>
-          <div className="relative mt-10 max-w-lg mx-auto p-6 bg-customGray dark:bg-black rounded-xl border border-slate-300 dark:border-gray-700 shadow-lg">
-            <ShineBorder
-              borderWidth={1}
-              duration={10}
-              shineColor={["#f23777", "#6f3cf5", "#f09c47"]}
-            />
-
-            <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
-              Contact Me
-            </h2>
-            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-black dark:text-gray-300">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full mt-1 p-3 border rounded-lg  bg-gray-100 dark:bg-transparent dark:text-white"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-black dark:text-gray-300">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full mt-1 p-3 border rounded-lg  bg-gray-100 dark:bg-transparent dark:text-white"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-black dark:text-gray-300">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  className="w-full mt-1 p-3 border rounded-lg bg-gray-100 dark:bg-transparent dark:text-white"
-                ></textarea>
-              </div>
-              <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-4 rounded">
-                <div className="scale-[0.85] md:scale-100 origin-top">
-                  <ReCAPTCHA
-                    ref={recaptchaRef}
-                    sitekey="6LdQ1QwrAAAAAECqMtX0qJDxYzvJ7xgfwJIzSFGy"
-                    theme={resolvedTheme}
-                    onChange={(token: string | null) =>
-                      setCaptchaToken(token || "")
-                    }
-                  />
-                </div>
-              </div>
-              <div className=" justify-self-center">
-                <button
-                  type="submit"
-                  className="p-3 dark:text-black font-bold dark:bg-white bg-black text-white rounded-lg transition"
-                >
-                  Send Message
-                </button>
-              </div>
-            </form>
-          </div>
+          <ContactForm />
         </div>
       </section>
     </main>
