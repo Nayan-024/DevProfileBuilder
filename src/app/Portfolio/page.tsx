@@ -12,10 +12,10 @@ import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { AnimatedList } from "@/components/magicui/animated-list";
 import { ExpandableCard } from "@/components/magicui/expandableCard";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import EducationCard from "@/components/magicui/EducationCard";
 import CertificateCard from "@/components/magicui/CertificateCard";
 import ContactForm from "@/components/magicui/contact-form";
+// import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 // import { BackgroundBeams } from "@/components/ui/background-beams";
 // import SplineViewer from "@/components/magicui/SplineViewer";
 const BLUR_FADE_DELAY = 0.04;
@@ -24,27 +24,6 @@ const Page = () => {
   const [showAll, setShowAll] = useState(false);
 
   const displayedProjects = showAll ? DATA.projects : DATA.projects.slice(0, 4);
-
-  const integrations = [
-    { src: "/react-icon.png", alt: "React" },
-    { src: "/nextjs-icon.png", alt: "NextJs" },
-    { src: "/Typescript-icon.png", alt: "Typescript" },
-    { src: "/nodejs.png", alt: "Typescript" },
-    { src: "/python.png", alt: "Python" },
-    { src: "/Go-Logo.png", alt: "Golang" },
-    { src: "/postgre-icon.png", alt: "Postgre Sql" },
-    { src: "/docker.png", alt: "Docker" },
-    { src: "/kubernet.png", alt: "Kubernete" },
-    { src: "/java.png", alt: "Java" },
-    { src: "/C++.png", alt: "C++" },
-  ];
-
-  const skillsData = integrations.map((item, index) => ({
-    id: index + 1,
-    name: DATA.skills[index],
-    designation: "",
-    image: item.src,
-  }));
 
   return (
     <main className="min-h-screen w-full flex flex-col p-6 ">
@@ -68,13 +47,13 @@ const Page = () => {
       >
         <div className="flex flex-col-reverse justify-between sm:flex-row items-center w-full">
           {/* Text Content */}
-          <div className="lg:w-6/12 w-full flex flex-col text-center sm:text-left px-4 sm:px-0">
+          <div className="lg:w-9/12 w-full flex flex-col text-center sm:text-left px-4 sm:px-0">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase tracking-wide leading-tight dark:text-white bg-gradient-to-r from-[#8a2387] via-[#e94057] to-[#f27121] text-transparent bg-clip-text break-words">
               {DATA.greeting}
-              {DATA.name}
+              {DATA.name}👋🏻
               <br className="" />
               <TypingText
-                texts={["Web Developer", "UI/UX Designer"]}
+                texts={[...DATA.Typingtext]}
                 typingSpeed={90}
                 deletingSpeed={50}
                 pauseTime={100}
@@ -109,7 +88,7 @@ const Page = () => {
             </div>
 
             {/* Stats */}
-            <div className="mt-4 sm:mt-16 flex sm:justify-between max-sm:justify-center max-sm:text-xs max-sm:w-full max-sm:gap-8 sm:flex-nowrap lg:w-3/4 text-base sm:text-lg whitespace-nowrap gap-x-6">
+            <div className="mt-4 sm:mt-16 flex sm:justify-between max-sm:justify-center max-sm:text-xs max-sm:w-full max-sm:gap-8 sm:flex-nowrap lg:w-2/4 text-base sm:text-lg whitespace-nowrap gap-x-6">
               <div className="text-center sm:text-left">
                 <h2 className="sm:text-3xl font-bold">15yrs+</h2>
                 <p>Experience</p>
@@ -125,7 +104,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="relative w-[200px] h-[200px]  sm:w-[400px] sm:h-[400px] flex justify-center items-center lg:ml-40">
+          <div className="relative w-[200px] h-[200px]  sm:w-[400px] sm:h-[400px] flex justify-center items-center lg:ml-20">
             <CardContainer>
               <CardBody className="w-72 h-72">
                 <CardItem
@@ -215,7 +194,7 @@ const Page = () => {
             <div className="relative flex flex-col items-center justify-center w-full space-y-6 md:space-y-0 md:flex-row md:h-[200px]">
               {/* Ensure AnimatedTooltip doesn't break on mobile */}
               <div className="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-6xl">
-              <AnimatedTooltip items={[...DATA.skills]} />
+                <AnimatedTooltip items={[...DATA.skills]} />
               </div>
             </div>
           </div>
@@ -383,29 +362,28 @@ const Page = () => {
           </div>
         ) : null}
       </section>
-      <section id="contact" className="mt-20">
-        <div className="">
-          <div className="justify-items-center">
-            <div className="mb-9 pointer-events-none">
-              <RainbowButton> Contact </RainbowButton>
+      <section id="contact" className="">
+        {"contact" in DATA && DATA.contact && (
+          <div className="mt-20">
+            <div className="justify-items-center">
+              <div className="mb-9 pointer-events-none">
+                <RainbowButton> Contact </RainbowButton>
+              </div>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                Get in Touch
+              </h2>
+              <p className="mx-auto w-3/4 text-muted-foreground md:text-xl/relaxed text-center lg:text-base/relaxed xl:text-xl/relaxed">
+                Want to chat? Just shoot me a dm{" "}
+                
+                  with a direct question on twitter
+                
+                and I&apos;ll respond whenever I can. I will ignore all
+                soliciting.
+              </p>
             </div>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-              Get in Touch
-            </h2>
-            <p className="mx-auto w-3/4 text-muted-foreground md:text-xl/relaxed text-center lg:text-base/relaxed xl:text-xl/relaxed">
-              Want to chat? Just shoot me a dm{" "}
-              <Link
-                href={DATA.contact.social.X.url}
-                className="text-blue-500 hover:underline"
-              >
-                with a direct question on twitter
-              </Link>{" "}
-              and I&apos;ll respond whenever I can. I will ignore all
-              soliciting.
-            </p>
+            <ContactForm />
           </div>
-          <ContactForm />
-        </div>
+        )}
       </section>
     </main>
   );

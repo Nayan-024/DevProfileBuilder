@@ -2,10 +2,7 @@ import React, { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { db, collection, addDoc } from "../../firebase";
 import { useTheme } from "next-themes";
-import { RainbowButton } from "./rainbow-button";
 import { ShineBorder } from "./shine-border";
-import Link from "next/link";
-import { DATA } from "@/data/resume";
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
