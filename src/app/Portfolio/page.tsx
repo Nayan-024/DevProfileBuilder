@@ -1,20 +1,20 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { DATA } from "@/data/resume";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import BlurFade from "@/components/magicui/blur-fade";
 import Markdown from "react-markdown";
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import { InfiniteMovingCards } from "@/components/custom/infinite-moving-cards";
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
 import Link from "next/link";
-import TypingText from "@/components/magicui/TypingText";
+import TypingText from "@/components/custom/TypingText";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { AnimatedList } from "@/components/magicui/animated-list";
-import { ExpandableCard } from "@/components/magicui/expandableCard";
-import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
-import EducationCard from "@/components/magicui/EducationCard";
-import CertificateCard from "@/components/magicui/CertificateCard";
-import ContactForm from "@/components/magicui/contact-form";
+import { ExpandableCard } from "@/components/custom/expandableCard";
+import { AnimatedTooltip } from "@/components/custom/animated-tooltip";
+import EducationCard from "@/components/custom/EducationCard";
+import CertificateCard from "@/components/custom/CertificateCard";
+import ContactForm from "@/components/custom/contact-form";
 // import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 // import { BackgroundBeams } from "@/components/ui/background-beams";
 // import SplineViewer from "@/components/magicui/SplineViewer";
@@ -363,7 +363,7 @@ const Page = () => {
         ) : null}
       </section>
       <section id="contact" className="">
-        {"contact" in DATA && DATA.contact && (
+        {DATA.contact && Object.keys(DATA.contact).length > 0 ? (
           <div className="mt-20">
             <div className="justify-items-center">
               <div className="mb-9 pointer-events-none">
@@ -374,16 +374,19 @@ const Page = () => {
               </h2>
               <p className="mx-auto w-3/4 text-muted-foreground md:text-xl/relaxed text-center lg:text-base/relaxed xl:text-xl/relaxed">
                 Want to chat? Just shoot me a dm{" "}
-                
+                <Link
+                  href={DATA.contact.social.X.url}
+                  className="text-blue-500 hover:underline"
+                >
                   with a direct question on twitter
-                
+                </Link>{" "}
                 and I&apos;ll respond whenever I can. I will ignore all
                 soliciting.
               </p>
             </div>
             <ContactForm />
           </div>
-        )}
+        ) : null}
       </section>
     </main>
   );

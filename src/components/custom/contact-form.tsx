@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { db, collection, addDoc } from "../../firebase";
 import { useTheme } from "next-themes";
-import { ShineBorder } from "./shine-border";
+import { ShineBorder } from "../magicui/shine-border";
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({

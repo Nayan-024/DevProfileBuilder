@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import {MagicCard} from "./magic-card"; // Adjust this path as needed
+import {MagicCard} from "../magicui/magic-card"; // Adjust this path as needed
 
 interface Certification {
   title: string;
