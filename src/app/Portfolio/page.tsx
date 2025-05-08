@@ -54,10 +54,10 @@ const Page = () => {
               <br className="" />
               <TypingText
                 texts={[...DATA.Typingtext]}
-                typingSpeed={90}
-                deletingSpeed={50}
+                typingSpeed={150}
+                deletingSpeed={70}
                 pauseTime={100}
-                className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-gradient dark:text-white bg-gradient-to-r from-[#8a2387] via-[#e94057] to-[#f27121] text-transparent bg-clip-text inline-block max-w-full break-words will-change-transform"
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gradient dark:text-white bg-gradient-to-r from-[#8a2387] via-[#e94057] to-[#f27121] text-transparent bg-clip-text inline-block max-w-full break-words will-change-transform"
               />
             </h1>
 
